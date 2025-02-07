@@ -1,0 +1,13 @@
+<mat-form-field>
+  <mat-label>Enter a city name</mat-label>
+  <span matTextPrefix>
+    <mat-icon fontIcon="search"></mat-icon>
+  </span>
+  <input matInput type="text" [(ngModel)]="searchValue">
+  @if (searchValue) {
+  <button matSuffix mat-icon-button aria-label="Clear" (click)="searchValue = ''">
+    <mat-icon>close</mat-icon>
+  </button>
+  }
+
+</mat-form-field>
