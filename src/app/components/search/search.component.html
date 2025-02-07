@@ -1,13 +1,39 @@
-<mat-form-field>
-  <mat-label>Enter a city name</mat-label>
-  <span matTextPrefix>
+<section>
+  <mat-form-field>
+    <mat-label>Enter a city name</mat-label>
+    <span matTextPrefix>
     <mat-icon fontIcon="search"></mat-icon>
   </span>
-  <input matInput type="text" [(ngModel)]="searchValue">
-  @if (searchValue) {
-  <button matSuffix mat-icon-button aria-label="Clear" (click)="searchValue = ''">
-    <mat-icon>close</mat-icon>
-  </button>
+    <input matInput type="text" [formControl]="searchControl">
+    @if (searchControl.value) {
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </mat-form-field>
+<!--  @if (searchInProgress) {-->
+<!--    <mat-progress-bar mode="indeterminate"></mat-progress-bar>-->
+<!--  }-->
+
+  @if (searchResults$ | async; as cities) {
+    @if (cities.length) {
+      <mat-list role="list">
+        @for (city of cities; track $index) {
+          <mat-list-item role="listitem" (click)="selectCity(city)">
+            {{ city.fullName }}
+          </mat-list-item>
+        }
+      </mat-list>
+    }
   }
 
-</mat-form-field>
+  @if (showNoResults) {
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        No results found
+      </mat-card-content>
+    </mat-card>
+  }
+
+</section>
+

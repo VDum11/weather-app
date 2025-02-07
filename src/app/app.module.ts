@@ -1,4 +1,4 @@
-import { importProvidersFrom, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,10 +11,13 @@ import { FavoritesComponent } from './components/favorites/favorites.component';
 import { SearchComponent } from './components/search/search.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import {} from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitleGroup } from '@angular/material/card';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -33,8 +36,17 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatInputModule,
     FormsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitleGroup,
+    MatCardContent,
+    ReactiveFormsModule,
+    MatList,
+    MatListItem,
+    MatProgressBar
   ],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,1 +1,18 @@
-<p>weather-card works!</p>
+@if (currentWeather$ | async; as weather) {
+  <mat-card class="example-card" appearance="outlined">
+    <mat-card-content>
+      <h2>{{ weather.name }}</h2>
+      <div class="weather-info">
+        <div class="temp">
+          <span class="temperature">{{ 'temperature' }}°C</span>
+        </div>
+        <div class="details">
+          <p>Humidity: {{ 'humidity' }}%</p>
+          <p>{{ 'description' }}</p>
+        </div>
+        <mat-icon class="weather-icon">{{ 'icon' }}</mat-icon>
+      </div>
+    </mat-card-content>
+  </mat-card>
+}
+
