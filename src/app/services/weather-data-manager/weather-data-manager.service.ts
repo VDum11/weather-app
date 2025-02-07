@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { OpenWeatherApiService } from '../open-weather-api/open-weather-api.service';
+import { OpenWeatherApiService } from '../api/open-weather/open-weather-api.service';
 import { BehaviorSubject, filter, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { WeatherCacheService } from '../weather-cache/weather-cache.service';
 import { WeatherDataMapperService } from '../weather-data-mapper/weather-data-mapper.service';
+import { CitySearchItem, CurrentWeatherResponse, ForecastResponse } from '../../shared';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WeatherDataService {
-  public readonly selectedCity$: Observable<any>;
+export class WeatherDataManagerService {
+  public readonly selectedCity$: Observable<CitySearchItem | null>;
   public readonly currentWeather$: Observable<any>;
   public readonly forecast$: Observable<any>;
 
-  private readonly selectedCitySubject = new BehaviorSubject<any | null>(null);
+  private readonly selectedCitySubject = new BehaviorSubject<CitySearchItem | null>(null);
   private readonly currentWeatherSubject = new BehaviorSubject<any | null>(null);
   private readonly forecastSubject = new BehaviorSubject<any | null>(null);
 
@@ -28,8 +29,8 @@ export class WeatherDataService {
     this.listenToCityChanges();
   }
 
-  public searchCity(city: string): Observable<any[]> {
-    return this.weatherApi.searchCity(city).pipe(map(this.mapper.mapCitySearchResults));
+  public searchCity(city: string): Observable<CitySearchItem[]> {
+    return this.weatherApi.searchCity(city).pipe(map(this.mapper.mapCitySearchResults))
   }
 
   public selectCity(city: any): void {
@@ -63,7 +64,7 @@ export class WeatherDataService {
     );
   }
 
-  private fetchWeatherAndForecast(lat: number, lon: number): Observable<[any, any]> {
+  private fetchWeatherAndForecast(lat: number, lon: number): Observable<[CurrentWeatherResponse, ForecastResponse]> {
     return forkJoin([
       this.weatherApi.getCurrentWeather(lat, lon),
       this.weatherApi.getForecast(lat, lon)
@@ -74,7 +75,7 @@ export class WeatherDataService {
     this.selectedCity$
       .pipe(
         filter(city => !!city),
-        switchMap(city => this.getWeatherAndForecast(city.lat, city.lon))
+        switchMap(({ lat, lon }) => this.getWeatherAndForecast(lat, lon))
       )
       .subscribe();
   }

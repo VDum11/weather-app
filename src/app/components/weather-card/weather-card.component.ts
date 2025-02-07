@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { WeatherDataService } from '../../services/weather-data/weather-data.service';
+import { WeatherDataManagerService } from '../../services/weather-data-manager/weather-data-manager.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -12,8 +12,8 @@ import { Observable } from 'rxjs';
 export class WeatherCardComponent {
   public readonly currentWeather$: Observable<any>;
 
-  constructor(private readonly weatherDataService: WeatherDataService) {
-    this.currentWeather$ = this.weatherDataService.currentWeather$;
+  constructor(private readonly weatherDataManagerService: WeatherDataManagerService) {
+    this.currentWeather$ = this.weatherDataManagerService.currentWeather$;
 
     this.currentWeather$.subscribe((weather) => {
       console.log('WeatherCardComponent: currentWeather$', weather);

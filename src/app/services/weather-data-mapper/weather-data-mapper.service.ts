@@ -1,26 +1,24 @@
 import { Injectable } from '@angular/core';
+import { CitySearchItem, CitySearchResponse, CurrentWeatherResponse, ForecastResponse } from '../../shared';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherDataMapperService {
-  public mapCitySearchResults(cities: any[]): any[] {
-    return cities.map((city: any) => ({
-      fullName: `${ city.name }, ${ city.state ? city.state + ', ' : '' }${ city.country }`,
+  public mapCitySearchResults(cities: CitySearchResponse[]): CitySearchItem[] {
+    return cities.map((city: CitySearchResponse) => ({
+      fullLocationName: `${ city.name }, ${ city.state ? city.state + ', ' : '' }${ city.country }`,
       name: city.name,
-      country: city.country,
       lat: city.lat,
-      lon: city.lon,
-      state: city?.state || null
+      lon: city.lon
     }));
   }
 
-  public mapWeatherData(weather: any): unknown {
-    // TODO: Implement this method
+  public mapWeatherData(weather: CurrentWeatherResponse): any {
     return weather;
   }
 
-  public mapForecastData(forecast: any): unknown[] {
+  public mapForecastData(forecast: ForecastResponse): any {
     // TODO: Implement this method
     return forecast;
   }

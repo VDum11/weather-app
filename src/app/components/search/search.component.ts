@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { OpenWeatherApiService } from '../../services/open-weather-api/open-weather-api.service';
 import { FormControl } from '@angular/forms';
 import {
   BehaviorSubject,
   debounceTime,
-  distinctUntilChanged,
+  distinctUntilChanged, EMPTY,
   filter,
   Observable,
   switchMap,
   tap
 } from 'rxjs';
-import { WeatherDataService } from '../../services/weather-data/weather-data.service';
+import { WeatherDataManagerService } from '../../services/weather-data-manager/weather-data-manager.service';
+import { CitySearchItem } from '../../shared';
 
 @Component({
   selector: 'app-search',
@@ -24,23 +24,24 @@ export class SearchComponent implements OnInit {
   public searchInProgress = false;
   public readonly searchControl = new FormControl('');
 
-  public readonly searchResults$: Observable<any[]>;
+  public readonly searchResults$: Observable<CitySearchItem[]>;
 
-  private readonly searchResultsSubject = new BehaviorSubject<any[]>([]);
+  private readonly searchResultsSubject = new BehaviorSubject<CitySearchItem[]>([]);
 
-  constructor(private readonly weatherDataService: WeatherDataService) {
+  constructor(private readonly weatherDataManagerService: WeatherDataManagerService) {
     this.searchResults$ = this.searchResultsSubject.asObservable();
   }
 
   public ngOnInit(): void {
     this.searchControl.valueChanges
       .pipe(
-        debounceTime(300),
+        tap(() => this.showNoResults = false),
+        debounceTime(500),
         distinctUntilChanged(),
         filter((value): value is string => !!value && value.length > 2),
-        switchMap(value => this.weatherDataService.searchCity(value)),
-        tap(() => this.searchInProgress = true)
-      ).subscribe((cities: any) => {
+        tap(() => this.searchInProgress = true),
+        switchMap(value => this.weatherDataManagerService.searchCity(value))
+      ).subscribe((cities: CitySearchItem[]) => {
       if (cities.length === 0) {
         this.showNoResults = true;
       }
@@ -58,7 +59,7 @@ export class SearchComponent implements OnInit {
   }
 
   public selectCity(city: any): void {
-    this.weatherDataService.selectCity(city);
+    this.weatherDataManagerService.selectCity(city);
     this.clearSearch();
   }
 }

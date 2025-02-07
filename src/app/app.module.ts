@@ -15,9 +15,10 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitleGroup } from '@angular/material/card';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MatList, MatListItem } from '@angular/material/list';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import { apiInterceptor } from './services/api/interceptor/api.interceptor';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,9 @@ import { MatProgressBar } from '@angular/material/progress-bar';
     MatListItem,
     MatProgressBar
   ],
-  providers: [provideHttpClient()],
+  providers: [
+    provideHttpClient(withInterceptors([apiInterceptor])),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
