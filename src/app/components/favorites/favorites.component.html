@@ -1,0 +1,25 @@
+<section class="favorites-container">
+  <h2>Favorites</h2>
+
+  @if (favoriteCitiesWeather$ | async; as favoriteWeather) {
+    @if (favoriteWeather.length) {
+      <div class="favorite-list">
+        @for (weather of favoriteWeather; track weather) {
+          <mat-card class="favorite-item" (click)="selectFavorite(weather)" tabindex="0">
+            <div class="favorite-content">
+              <div class="favorite-info">
+                <h3>{{ weather.cityName }}</h3>
+                <p>{{ weather.temperature }}°C - {{ weather.weatherDescription }}</p>
+              </div>
+              <button mat-icon-button (click)="removeFromFavorites($event, weather)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-card>
+        }
+      </div>
+    } @else {
+      <p class="empty-message">You have no favorite cities yet.</p>
+    }
+  }
+</section>

@@ -1,12 +1,10 @@
 <app-header></app-header>
 
 <main>
-  <section>
-    <div>
+  <section class="content">
+    <div class="main-content">
       <app-search></app-search>
-
       <app-weather-card></app-weather-card>
-
       <app-forecast></app-forecast>
     </div>
 
@@ -15,11 +13,13 @@
     </aside>
   </section>
 
-<!--  <button class="toggle-favorites mobile-only" (click)="showFavorites = !showFavorites">-->
-<!--    {{ showFavorites ? 'Hide Favorites' : 'Show Favorites' }}-->
-<!--  </button>-->
+  <button class="toggle-favorites mobile-only" aria-label="Toggle Favorites" (click)="toggleFavorites()">
+    {{ showFavorites ? 'Hide Favorites' : 'Show Favorites' }}
+  </button>
 
-<!--  <section *ngIf="showFavorites" class="mobile-favorites mobile-only">-->
-<!--    <app-favorites></app-favorites>-->
-<!--  </section>-->
+  @if (showFavorites) {
+    <section class="mobile-favorites mobile-only">
+      <app-favorites></app-favorites>
+    </section>
+  }
 </main>

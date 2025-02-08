@@ -1,0 +1,73 @@
+.forecast-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  overflow-x: auto;
+  padding: 16px 0;
+}
+
+.forecast-card {
+  width: 160px;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding: 12px;
+  background: var(--mat-sys-surface-container);
+  box-shadow: var(--mat-elevation-level1);
+  border-radius: 8px;
+}
+
+.forecast-date {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.forecast-icon {
+  font-size: 36px;
+}
+
+.temperature-high-low {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+
+  .temperature-section {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+  }
+}
+
+.forecast-description {
+  font-size: 0.8rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+@media (max-width: 768px) {
+  .forecast-container {
+    flex-direction: column;
+    justify-content: space-between;
+
+    .forecast-card {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: 100%;
+      min-height: 60px;
+
+      .weather-icon {
+        width: 30px;
+        height: 30px;
+      }
+
+      .forecast-description {
+        display: none;
+      }
+    }
+  }
+}
+

@@ -3,3 +3,5 @@ export * from './city-search-response.interface';
 export * from './current-weather-response.interface';
 export * from './forecast-response.interface';
 export * from './city-search-item.interface';
+export * from './current-weather.interface';
+export * from './weather-condition.interface';

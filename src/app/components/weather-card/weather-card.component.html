@@ -1,18 +1,60 @@
 @if (currentWeather$ | async; as weather) {
-  <mat-card class="example-card" appearance="outlined">
+  <mat-card class="weather-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{ weather.cityName }}</mat-card-title>
+      <button mat-icon-button (click)="toggleFavorite()">
+        <mat-icon>{{ isFavorite ? 'star_filled' : 'star_border' }}</mat-icon>
+      </button>
+    </mat-card-header>
+
     <mat-card-content>
-      <h2>{{ weather.name }}</h2>
-      <div class="weather-info">
-        <div class="temp">
-          <span class="temperature">{{ 'temperature' }}°C</span>
+      <section class="weather-info">
+        <img
+          class="weather-icon"
+          [src]="'https://openweathermap.org/img/wn/' + weather.weatherIcon + '@2x.png'"
+          [alt]="weather.weatherDescription"
+        >
+
+        <div class="weather-details">
+          <span class="temperature">{{ weather.temperature }}°C</span>
+          <p>Feels like: {{ weather.feelsLike }}°C</p>
+          <p>{{ weather.weatherDescription }}</p>
         </div>
-        <div class="details">
-          <p>Humidity: {{ 'humidity' }}%</p>
-          <p>{{ 'description' }}</p>
-        </div>
-        <mat-icon class="weather-icon">{{ 'icon' }}</mat-icon>
-      </div>
+      </section>
+
+      <section class="weather-mini-cards">
+        <mat-card class="weather-mini-card">
+          <div class="temperature-high-low">
+            <div class="temperature-section">
+              <p>H:</p>
+              <strong>{{ weather.maxTemperature }}°C</strong>
+            </div>
+            <div class="temperature-section">
+              <p>L:</p>
+              <strong>{{ weather.minTemperature }}°C</strong>
+            </div>
+          </div>
+        </mat-card>
+
+        <mat-card class="weather-mini-card">
+          <p>Humidity</p>
+          <strong>{{ weather.humidity }}%</strong>
+        </mat-card>
+
+        <mat-card class="weather-mini-card">
+          <p>Wind</p>
+          <strong>{{ weather.windSpeed }} m/s</strong>
+        </mat-card>
+
+        <mat-card class="weather-mini-card">
+          <p>Cloudiness</p>
+          <strong>{{ weather.cloudiness }} %</strong>
+        </mat-card>
+      </section>
     </mat-card-content>
+
+    <mat-card-footer class="weather-footer">
+      <small>Last updated: {{ weather.date | date: 'shortTime' }}</small>
+    </mat-card-footer>
   </mat-card>
 }
-

@@ -1,1 +1,25 @@
-<p>forecast works!</p>
+@if (forecast$ | async; as forecast) {
+  <section class="forecast-container">
+    @for (day of forecast; track day) {
+      <mat-card class="forecast-card">
+        <p class="forecast-date">{{ day.date | date: 'EEE, d MMM' }}</p>
+        <img
+          class="weather-icon"
+          [src]="'https://openweathermap.org/img/wn/' + day.weatherIcon + '@2x.png'"
+          [alt]="day.weatherDescription"
+        >
+        <div class="temperature-high-low">
+          <div class="temperature-section">
+            <p>H:</p>
+            <strong>{{ day.maxTemperature }}°C</strong>
+          </div>
+          <div class="temperature-section">
+            <p>L:</p>
+            <strong>{{ day.minTemperature }}°C</strong>
+          </div>
+        </div>
+        <p class="forecast-description">{{ day.weatherDescription }}</p>
+      </mat-card>
+    }
+  </section>
+}

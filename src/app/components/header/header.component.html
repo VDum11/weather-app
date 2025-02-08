@@ -1,4 +1,23 @@
-<mat-toolbar>
-  <span class="material-symbols-outlined">partly_cloudy_day</span>
-  <h1>Weather now</h1>
+<mat-toolbar class="app-header">
+  <div class="app-header-logo">
+    <span class="material-symbols-outlined">partly_cloudy_day</span>
+    <h1>Weather now</h1>
+  </div>
+
+  <div class="app-header-controls">
+    <button mat-icon-button
+            [attr.aria-label]="'Toggle Theme'"
+            (click)="toggleTheme()">
+      <mat-icon>{{ isDarkTheme ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    </button>
+
+    <mat-select
+      class="lang-select"
+      [(value)]="selectedLanguage"
+      (selectionChange)="changeLanguage($event.value)">
+      @for (lang of languages; track lang) {
+        <mat-option [value]="lang.code">{{ lang.label }}</mat-option>
+      }
+    </mat-select>
+  </div>
 </mat-toolbar>

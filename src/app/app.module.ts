@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './components/header/header.component';
@@ -14,11 +13,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCard, MatCardContent, MatCardHeader, MatCardTitleGroup } from '@angular/material/card';
-import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { MatCardModule } from '@angular/material/card';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MatList, MatListItem } from '@angular/material/list';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { apiInterceptor } from './services/api/interceptor/api.interceptor';
+import { MatOption, MatSelect } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -31,25 +31,24 @@ import { apiInterceptor } from './services/api/interceptor/api.interceptor';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
     MatInputModule,
     FormsModule,
     MatButtonModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitleGroup,
-    MatCardContent,
+    MatCardModule,
     ReactiveFormsModule,
     MatList,
     MatListItem,
-    MatProgressBar
+    MatProgressBar,
+    MatSelect,
+    MatOption,
   ],
   providers: [
-    provideHttpClient(withInterceptors([apiInterceptor])),
+    provideHttpClient(withInterceptors([apiInterceptor]))
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

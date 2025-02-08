@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
+import { WeatherData } from '../../shared';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherCacheService {
   private readonly CACHE_DURATION = 60 * 60 * 1000; // 1 hour
-  private readonly cache: Map<string, { data: any, timestamp: number }> = new Map();
+
+  private readonly currentWeatherCache: Map<string, { data: WeatherData, timestamp: number }> = new Map();
+  private readonly forecastCache: Map<string, { data: WeatherData[], timestamp: number }> = new Map();
 
   public getCacheKeys(lat: number, lon: number): { weatherKey: string; forecastKey: string } {
     return {
@@ -14,26 +17,40 @@ export class WeatherCacheService {
     };
   }
 
-  public getCachedData(lat: number, lon: number): [any | null, any | null] {
+  public getCachedData(lat: number, lon: number): [WeatherData, WeatherData[]] | undefined {
     const { weatherKey, forecastKey } = this.getCacheKeys(lat, lon);
     const now = Date.now();
 
-    const cachedWeather = this.cache.get(weatherKey);
-    const cachedForecast = this.cache.get(forecastKey);
-    const isDataValid = cachedWeather && cachedForecast && now - cachedWeather.timestamp < this.CACHE_DURATION;
+    const cachedCurrentWeather = this.currentWeatherCache.get(weatherKey);
+    const cachedForecast = this.forecastCache.get(forecastKey);
+    const isDataValid = cachedCurrentWeather && cachedForecast && now - cachedForecast.timestamp < this.CACHE_DURATION;
 
-    if (cachedWeather && cachedForecast && isDataValid) {
-      return [cachedWeather.data, cachedForecast.data];
+    if (isDataValid) {
+      return [cachedCurrentWeather.data, cachedForecast.data];
     }
 
-    return [null, null];
+    return;
   }
+  //
+  // public setCacheData(lat: number, lon: number, currentWeather: WeatherData, forecast: WeatherData[]): void {
+  //   const { weatherKey, forecastKey } = this.getCacheKeys(lat, lon);
+  //   const now = Date.now();
+  //
+  //   this.currentWeatherCache.set(weatherKey, { data: currentWeather, timestamp: now });
+  //   this.forecastCache.set(forecastKey, { data: forecast, timestamp: now });
+  // }
 
-  public setCacheData(lat: number, lon: number, weather: any, forecast: any): void {
-    const { weatherKey, forecastKey } = this.getCacheKeys(lat, lon);
+  public setCurrentWeatherCache(lat: number, lon: number, currentWeather: WeatherData): void {
+    const { weatherKey } = this.getCacheKeys(lat, lon);
     const now = Date.now();
 
-    this.cache.set(weatherKey, { data: weather, timestamp: now });
-    this.cache.set(forecastKey, { data: forecast, timestamp: now });
+    this.currentWeatherCache.set(weatherKey, { data: currentWeather, timestamp: now });
+  }
+
+  public setForecastCache(lat: number, lon: number, forecast: WeatherData[]): void {
+    const { forecastKey } = this.getCacheKeys(lat, lon);
+    const now = Date.now();
+
+    this.forecastCache.set(forecastKey, { data: forecast, timestamp: now });
   }
 }

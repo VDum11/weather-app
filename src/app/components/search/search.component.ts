@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import {
   BehaviorSubject,
   debounceTime,
-  distinctUntilChanged, EMPTY,
+  distinctUntilChanged,
   filter,
   Observable,
   switchMap,
@@ -47,7 +47,7 @@ export class SearchComponent implements OnInit {
       }
 
       this.searchResultsSubject.next(cities);
-      // this.searchInProgress = false;
+      this.searchInProgress = false;
     });
   }
 
@@ -55,10 +55,10 @@ export class SearchComponent implements OnInit {
     this.searchControl.setValue('');
     this.searchResultsSubject.next([]);
     this.showNoResults = false;
-    // this.searchInProgress = false;
+    this.searchInProgress = false;
   }
 
-  public selectCity(city: any): void {
+  public selectCity(city: CitySearchItem): void {
     this.weatherDataManagerService.selectCity(city);
     this.clearSearch();
   }

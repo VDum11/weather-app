@@ -1,0 +1,83 @@
+.weather-card {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  text-align: center;
+  background: var(--mat-sys-surface);
+  border-radius: 8px;
+  box-shadow: var(--mat-elevation-level2);
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: var(--mat-elevation-level4);
+  }
+}
+
+mat-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.weather-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.weather-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.weather-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 1.1rem;
+}
+
+.weather-mini-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.weather-mini-card {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1rem;
+  background: var(--mat-sys-surface-container);
+  box-shadow: var(--mat-elevation-level1);
+  border-radius: 8px;
+
+  strong {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .temperature-high-low {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+
+    .temperature-section {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+    }
+  }
+}
+
+.weather-footer {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: var(--mat-sys-on-surface-variant);
+}

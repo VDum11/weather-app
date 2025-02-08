@@ -1,0 +1,35 @@
+.search-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  width: 100%;
+}
+
+.search-field {
+  width: 100%;
+}
+
+.search-icon-container {
+  margin-right: 10px;
+}
+
+mat-list {
+  width: 100%;
+  background: var(--mat-sys-surface-variant);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+mat-list-item {
+  cursor: pointer !important;
+  transition: background 0.2s ease-in-out;
+  padding: 12px;
+
+  &:hover, &:focus {
+    background: var(--mat-sys-secondary-container);
+  }
+}
+
+mat-card {
+  text-align: center;
+}
