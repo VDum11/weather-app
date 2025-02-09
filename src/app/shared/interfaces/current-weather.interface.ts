@@ -1,5 +1,4 @@
 export interface WeatherData {
-  cityName?: string;
   date: Date;
   humidity: number;
   temperature: number;
@@ -11,4 +10,7 @@ export interface WeatherData {
   weatherId: number;
   weatherDescription: string;
   weatherIcon: string;
+  lat: number;
+  lon: number;
+  name?: string;
 }

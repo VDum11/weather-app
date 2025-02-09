@@ -1,10 +1,10 @@
-@use '@angular/material' as mat;
+@use "variables" as *;
 
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: $header-padding;
 }
 
 .app-header-logo {
@@ -24,43 +24,32 @@
 
 .app-header-controls {
   display: flex;
-  gap: 16px;
+  gap: $gap-lg;
   align-items: center;
-  justify-content: space-between;
-  min-width: 120px;
-
-  mat-select {
-    max-width: 60px;
-  }
 
   mat-icon {
     font-size: 24px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .app-header {
-    padding: 6px 12px;
+    padding: $mobile-header-padding;
   }
 
-  .app-header-logo h1 {
-    font-size: 1.25rem;
-  }
+  .app-header-logo {
+    gap: 6px;
 
-  .app-header-logo .material-symbols-outlined {
-    font-size: 1.5rem;
+    h1 {
+      font-size: 1.25rem;
+    }
+
+    .material-symbols-outlined {
+      font-size: 1.5rem;
+    }
   }
 
   .app-header-controls {
-    gap: 8px;
+    gap: $gap-sm;
   }
 }
-
-//TODO provide scoped styles for mat-select
-::ng-deep mat-option .mat-pseudo-checkbox {
-  display: none !important;
-}
-
-
-
-

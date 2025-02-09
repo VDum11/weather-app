@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { WeatherDataManagerService } from '../../services/weather-data-manager/weather-data-manager.service';
-import { filter, Observable } from 'rxjs';
+import { combineLatest, filter, map, Observable } from 'rxjs';
 import { WeatherData } from '../../shared';
 import { FavoriteService } from '../../services/favorite/favorite.service';
 
@@ -12,7 +12,7 @@ import { FavoriteService } from '../../services/favorite/favorite.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WeatherCardComponent implements OnInit {
-  public isFavorite = false;
+  public isFavorite$: Observable<boolean> | undefined;
   public readonly currentWeather$: Observable<WeatherData | null>;
 
   constructor(
@@ -23,12 +23,13 @@ export class WeatherCardComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.weatherDataManagerService.selectedCitySubject
+    this.isFavorite$ = combineLatest([
+      this.weatherDataManagerService.selectedCitySubject,
+      this.favoriteService.favoriteCities$
+    ])
       .pipe(
-        filter((city) => !!city)
-      )
-      .subscribe((city) =>
-        this.isFavorite = this.favoriteService.isFavorite(city)
+        filter(([city]) => !!city),
+        map(([city]) => this.favoriteService.isFavorite(city!))
       );
   }
 
@@ -36,6 +37,5 @@ export class WeatherCardComponent implements OnInit {
     const city = this.weatherDataManagerService.selectedCitySubject.getValue()!;
 
     this.favoriteService.toggleFavorite(city);
-    this.isFavorite = this.favoriteService.isFavorite(city);
   }
 }

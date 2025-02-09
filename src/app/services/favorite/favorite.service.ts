@@ -1,36 +1,35 @@
 import { Injectable } from '@angular/core';
-import { CitySearchItem } from '../../shared';
+import { CityBasicInfo } from '../../shared';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoriteService {
-  public readonly favoriteCities$: Observable<CitySearchItem[]>;
+  public readonly favoriteCities$: Observable<CityBasicInfo[]>;
+
   private readonly FAVORITE_KEY = 'favorite_cities';
-  private readonly favoriteCitiesSubject = new BehaviorSubject<CitySearchItem[]>([]);
+  private readonly favoriteCitiesSubject = new BehaviorSubject<CityBasicInfo[]>([]);
 
   constructor() {
     this.favoriteCities$ = this.favoriteCitiesSubject.asObservable();
     this.favoriteCitiesSubject.next(this.getFavoriteCities());
   }
 
-  public toggleFavorite(city: CitySearchItem): void {
-    if (this.isFavorite(city)) {
-      this.removeFromFavorite(city);
-    } else {
-      this.addToFavorite(city);
-    }
+  public toggleFavorite(city: CityBasicInfo): void {
+    this.isFavorite(city)
+      ? this.removeFromFavorite(city)
+      : this.addToFavorite(city);
   }
 
-  public addToFavorite(city: CitySearchItem): void {
+  public addToFavorite(city: CityBasicInfo): void {
     const favoriteCities = this.getFavoriteCities();
     favoriteCities.push(city);
     this.saveFavoriteCities(favoriteCities);
     this.favoriteCitiesSubject.next(favoriteCities);
   }
 
-  public removeFromFavorite(city: CitySearchItem): void {
+  public removeFromFavorite(city: CityBasicInfo): void {
     const favoriteCities = this.getFavoriteCities();
     const newFavoriteCities = favoriteCities.filter((favoriteCity) =>
       favoriteCity.lat !== city.lat && favoriteCity.lon !== city.lon
@@ -40,17 +39,19 @@ export class FavoriteService {
     this.favoriteCitiesSubject.next(newFavoriteCities);
   }
 
-  public getFavoriteCities(): CitySearchItem[] {
+  public getFavoriteCities(): CityBasicInfo[] {
     const favoriteCities = localStorage.getItem(this.FAVORITE_KEY);
+
     return favoriteCities ? JSON.parse(favoriteCities) : [];
   }
 
-  public isFavorite(city: CitySearchItem): boolean {
+  public isFavorite(city: CityBasicInfo): boolean {
     const favoriteCities = this.favoriteCitiesSubject.getValue();
-    return favoriteCities.some((favoriteCity) => favoriteCity.lat === city.lat && favoriteCity.lon === city.lon);
+
+    return favoriteCities.some((favoriteCity: CityBasicInfo) => favoriteCity.lat === city.lat && favoriteCity.lon === city.lon);
   }
 
-  private saveFavoriteCities(favoriteCities: CitySearchItem[]): void {
+  private saveFavoriteCities(favoriteCities: CityBasicInfo[]): void {
     localStorage.setItem(this.FAVORITE_KEY, JSON.stringify(favoriteCities));
   }
 }

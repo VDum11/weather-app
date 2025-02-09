@@ -1,9 +1,9 @@
 @if (currentWeather$ | async; as weather) {
   <mat-card class="weather-card" appearance="outlined">
     <mat-card-header>
-      <mat-card-title>{{ weather.cityName }}</mat-card-title>
+      <mat-card-title>{{ weather.name }}</mat-card-title>
       <button mat-icon-button (click)="toggleFavorite()">
-        <mat-icon>{{ isFavorite ? 'star_filled' : 'star_border' }}</mat-icon>
+        <mat-icon>{{ (isFavorite$ | async) ? 'star_filled' : 'star_border' }}</mat-icon>
       </button>
     </mat-card-header>
 

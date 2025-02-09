@@ -1,36 +1,39 @@
+@use "variables" as *;
+
 .favorites-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: $gap-lg;
   max-width: 100%;
 }
 
+.favorites-header {
+  height: $header-height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .favorite-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-lg;
 }
 
 .favorite-item {
   display: flex;
   flex-direction: column;
   padding: 8px;
-  border-radius: 8px;
+  border-radius: $border-radius-md;
   background: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   box-shadow: var(--mat-elevation-2);
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
   outline: none;
 
   &:hover {
-    background: var(--mat-sys-primary-container);
+    background: var(--mat-sys-surface-container);
     box-shadow: var(--mat-elevation-4);
-  }
-
-  &:focus {
-    background: var(--mat-sys-primary-container);
-    outline: 2px solid var(--mat-sys-primary);
   }
 }
 
@@ -38,7 +41,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: $gap-sm;
+  width: 100%;
 }
 
 .favorite-info {
@@ -55,15 +59,11 @@ button {
   text-align: center;
   font-size: 1rem;
   color: var(--mat-sys-on-surface-variant);
-  margin-top: 16px;
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
   .favorite-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    gap: $gap-sm;
   }
 
   .favorite-item {

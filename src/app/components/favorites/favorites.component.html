@@ -1,25 +1,33 @@
 <section class="favorites-container">
-  <h2>Favorites</h2>
+  <div class="favorites-header">
+    <h2>Favorites</h2>
+  </div>
 
   @if (favoriteCitiesWeather$ | async; as favoriteWeather) {
     @if (favoriteWeather.length) {
-      <div class="favorite-list">
-        @for (weather of favoriteWeather; track weather) {
-          <mat-card class="favorite-item" (click)="selectFavorite(weather)" tabindex="0">
-            <div class="favorite-content">
-              <div class="favorite-info">
-                <h3>{{ weather.cityName }}</h3>
-                <p>{{ weather.temperature }}°C - {{ weather.weatherDescription }}</p>
+      <mat-card appearance="outlined" class="favorite-list">
+        <mat-card-content>
+          @for (weather of favoriteWeather; track weather) {
+            <mat-card class="favorite-item" (click)="selectFavorite(weather)" tabindex="0">
+              <div class="favorite-content">
+                <div class="favorite-info">
+                  <h3>{{ weather.name }}</h3>
+                  <p>{{ weather.temperature }}°C - {{ weather.weatherDescription }}</p>
+                </div>
+                <button mat-icon-button (click)="removeFromFavorites($event, weather)">
+                  <mat-icon>delete</mat-icon>
+                </button>
               </div>
-              <button mat-icon-button (click)="removeFromFavorites($event, weather)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </mat-card>
-        }
-      </div>
+            </mat-card>
+          }
+        </mat-card-content>
+      </mat-card>
     } @else {
-      <p class="empty-message">You have no favorite cities yet.</p>
+      <mat-card class="empty-message" appearance="outlined">
+        <mat-card-content>
+          You have no favorite cities yet.
+        </mat-card-content>
+      </mat-card>
     }
   }
 </section>

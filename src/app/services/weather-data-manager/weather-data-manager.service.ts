@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { OpenWeatherApiService } from '../api/open-weather/open-weather-api.service';
-import { BehaviorSubject, EMPTY, filter, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, filter, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { WeatherCacheService } from '../weather-cache/weather-cache.service';
 import { WeatherDataMapperService } from '../weather-data-mapper/weather-data-mapper.service';
-import { CitySearchItem, CurrentWeatherResponse, ForecastResponse, WeatherData } from '../../shared';
+import { CityBasicInfo, CitySearchItem, CurrentWeatherResponse, ForecastResponse, WeatherData } from '../../shared';
 import { FavoriteService } from '../favorite/favorite.service';
 
 @Injectable({
@@ -12,13 +12,13 @@ import { FavoriteService } from '../favorite/favorite.service';
 export class WeatherDataManagerService {
   public readonly currentWeather$: Observable<WeatherData | null>;
   public readonly forecast$: Observable<WeatherData[] | null>;
-  public readonly favoriteCitiesWeather$: Observable<WeatherData[] | null>;
+  public readonly favoriteCitiesWeather$: Observable<WeatherData[]>;
 
-  public readonly selectedCitySubject = new BehaviorSubject<CitySearchItem | null>(null);
+  public readonly selectedCitySubject = new BehaviorSubject<CityBasicInfo | null>(null);
 
   private readonly currentWeatherSubject = new BehaviorSubject<WeatherData | null>(null);
   private readonly forecastSubject = new BehaviorSubject<WeatherData[]>([]);
-  private readonly favoriteCitiesWeatherSubject = new BehaviorSubject<WeatherData[] | null>(null);
+  private readonly favoriteCitiesWeatherSubject = new BehaviorSubject<WeatherData[]>([]);
 
   constructor(
     private readonly weatherApi: OpenWeatherApiService,
@@ -30,19 +30,19 @@ export class WeatherDataManagerService {
     this.forecast$ = this.forecastSubject.asObservable();
     this.favoriteCitiesWeather$ = this.favoriteCitiesWeatherSubject.asObservable();
 
-    this.listenToCityChanges();
-    this.listenToFavoriteChanges();
+    this.subscribeToCitySelection();
+    this.subscribeToFavoriteChanges();
   }
 
   public searchCity(city: string): Observable<CitySearchItem[]> {
     return this.weatherApi.searchCity(city).pipe(map(this.mapper.mapCitySearchResults));
   }
 
-  public selectCity(city: any): void {
+  public selectCity(city: CityBasicInfo): void {
     this.selectedCitySubject.next(city);
   }
 
-  public listenToCityChanges(): void {
+  public subscribeToCitySelection(): void {
     this.selectedCitySubject
       .pipe(
         filter(city => !!city),
@@ -54,32 +54,20 @@ export class WeatherDataManagerService {
       ).subscribe();
   }
 
-  private listenToFavoriteChanges(): void {
+  private subscribeToFavoriteChanges(): void {
     this.favoriteService.favoriteCities$.pipe(
       switchMap((favoriteCities) => {
+        if (!favoriteCities.length) {
+          return of([]);
+        }
+
         const requests = favoriteCities.map(city => this.getWeatherAndForecast(city.lat, city.lon, city.name));
 
-        return requests.length ? forkJoin(requests) : EMPTY;
+        return forkJoin(requests);
       }),
       map((weatherData) => weatherData.map(([weather]) => weather)),
       tap((weatherData) => this.favoriteCitiesWeatherSubject.next(weatherData))
     ).subscribe();
-
-
-    // const favoriteCities = this.favoriteService.getFavoriteCities();
-    // const requests = favoriteCities.map(city =>
-    //   this.weatherApi.getCurrentWeather(city.lat, city.lon)
-    //     .pipe(
-    //       map((weather) => this.mapper.mapCurrentWeatherData(weather, city.name)),
-    //       tap((weather) => this.cacheService.setCurrentWeatherCache(city.lat, city.lon, weather))
-    //     )
-    // );
-    //
-    // forkJoin(requests)
-    //   .pipe(
-    //     tap((weatherData) => this.favoriteCitiesWeatherSubject.next(weatherData))
-    //   )
-    //   .subscribe();
   }
 
   private getWeatherAndForecast(lat: number, lon: number, cityName: string): Observable<[WeatherData, WeatherData[]]> {
@@ -91,7 +79,7 @@ export class WeatherDataManagerService {
       return of([cachedWeather, cachedForecast]);
     }
 
-    return this.fetchWeatherAndForecast(lat, lon).pipe(
+    return this.fetchWeatherAndForecastFromApi(lat, lon).pipe(
       map(([weather, forecast]): [WeatherData, WeatherData[]] => {
         const weatherMappedData = this.mapper.mapCurrentWeatherData(weather, cityName);
         const forecastMappedData = this.mapper.mapForecastData(forecast);
@@ -105,7 +93,7 @@ export class WeatherDataManagerService {
     );
   }
 
-  private fetchWeatherAndForecast(lat: number, lon: number): Observable<[CurrentWeatherResponse, ForecastResponse]> {
+  private fetchWeatherAndForecastFromApi(lat: number, lon: number): Observable<[CurrentWeatherResponse, ForecastResponse]> {
     return forkJoin([
       this.weatherApi.getCurrentWeather(lat, lon),
       this.weatherApi.getForecast(lat, lon)

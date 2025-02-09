@@ -1,22 +1,23 @@
+@use 'variables' as *;
+
 .weather-card {
   display: flex;
   flex-direction: column;
   padding: 16px;
   text-align: center;
   background: var(--mat-sys-surface);
-  border-radius: 8px;
-  box-shadow: var(--mat-elevation-level2);
-  transition: box-shadow 0.3s ease-in-out;
+  border-radius: $border-radius-md;
+  box-shadow: $box-shadow-default;
 
   &:hover {
-    box-shadow: var(--mat-elevation-level4);
+    box-shadow: $box-shadow-hover;
   }
 }
 
 mat-card-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: $gap-md;
 }
 
 .weather-info {
@@ -41,7 +42,7 @@ mat-card-header {
 .weather-mini-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: $gap-md;
   margin-top: 16px;
 }
 
@@ -52,25 +53,23 @@ mat-card-header {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 1rem;
+  font-size: $font-size-default;
   background: var(--mat-sys-surface-container);
   box-shadow: var(--mat-elevation-level1);
-  border-radius: 8px;
+  border-radius: $border-radius-md;
 
   strong {
-    font-size: 1.2rem;
+    font-size: $font-size-large;
     font-weight: bold;
   }
 
   .temperature-high-low {
     display: flex;
-    flex-direction: row;
     align-items: center;
     gap: 16px;
 
     .temperature-section {
       display: flex;
-      flex-direction: row;
       gap: 4px;
     }
   }

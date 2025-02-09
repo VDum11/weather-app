@@ -1,0 +1,37 @@
+// Border Radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+
+// Box Shadows
+$box-shadow-default: var(--mat-elevation-level2);
+$box-shadow-hover: var(--mat-elevation-level4);
+
+// Gaps & Spacing
+$gap-sm: 8px;
+$gap-md: 12px;
+$gap-lg: 16px;
+
+// Font Sizes
+$font-size-default: 1rem;
+$font-size-large: 1.2rem;
+
+// Layout & Section Widths
+$section-width: 1200px;
+$favorites-width: 350px;
+
+// Header & Buttons
+$header-height: 76px;
+$header-padding: 8px 16px;
+$mobile-header-padding: 6px 12px;
+$mobile-gap: 8px;
+
+$button-padding: 8px;
+
+// Search Field
+$search-max-width: 400px;
+
+// Forecast
+$forecast-card-width: 160px;
+$forecast-icon-size: 40px;
+$forecast-padding: 12px;
+$temperature-gap: 16px;

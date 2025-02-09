@@ -1,7 +1,9 @@
+@use "variables" as *;
+
 .search-container {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  max-width: $search-max-width;
   width: 100%;
 }
 
@@ -16,16 +18,16 @@
 mat-list {
   width: 100%;
   background: var(--mat-sys-surface-variant);
-  border-radius: 8px;
+  border-radius: $border-radius-md;
   overflow: hidden;
 }
 
 mat-list-item {
   cursor: pointer !important;
-  transition: background 0.2s ease-in-out;
   padding: 12px;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background: var(--mat-sys-secondary-container);
   }
 }
