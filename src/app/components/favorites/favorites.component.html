@@ -7,8 +7,8 @@
     @if (favoriteWeather.length) {
       <mat-card appearance="outlined" class="favorite-list">
         <mat-card-content>
-          @for (weather of favoriteWeather; track weather) {
-            <mat-card class="favorite-item" (click)="selectFavorite(weather)" tabindex="0">
+          @for (weather of favoriteWeather; track weather.name) {
+            <mat-card class="favorite-item" (click)="selectFavorite(weather)">
               <div class="favorite-content">
                 <div class="favorite-info">
                   <h3>{{ weather.name }}</h3>

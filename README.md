@@ -1,27 +1,124 @@
-# WeatherApp
+Here’s an improved and updated `README.md` that better reflects your project's structure, development setup, and testing instructions:
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.14.
+---
 
-## Development server
+# 🌤 WeatherApp
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+A modern weather application built with **Angular 19**, **Angular Material**, and **RxJS**.
 
-## Code scaffolding
+## 🚀 Features
+- Search for cities and get real-time weather data
+- View **current weather** and **5-day forecast**
+- Save favorite cities with **local storage persistence**
+- Light and dark mode toggle
+- Multi-language support (if implemented)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+## 🛠 Setup & Installation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Prerequisites
+Ensure you have **Node.js (LTS)** installed. Then, install Angular CLI:
+```sh
+npm install -g @angular/cli
+```
 
-## Running unit tests
+### Install Dependencies
+Run the following command in the project root:
+```sh
+npm install
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+## 🎯 Development
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Start the Development Server
+```sh
+npm start
+```
+Navigate to [http://localhost:4200](http://localhost:4200).  
+The app will reload automatically on file changes.
 
-## Further help
+### Code Scaffolding
+To generate a component, directive, or service, use:
+```sh
+ng generate component component-name
+ng generate service service-name
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+---
+
+## 🔨 Building the Project
+To build the project for production:
+```sh
+npm run build
+```
+Build artifacts will be stored in the `dist/` directory.
+
+To continuously watch for changes and rebuild:
+```sh
+npm run watch
+```
+
+---
+
+## ✅ Testing
+
+### Run Unit Tests
+Execute unit tests with Karma:
+```sh
+npm run test
+```
+
+---
+
+## 📦 Project Structure
+```
+weather-app/
+│── src/
+│   ├── app/
+│   │   ├── components/   # Reusable UI components
+│   │   ├── services/     # API calls, caching, and state management
+│   │   ├── shared/       # Interfaces, enums, and utilities
+│   │   ├── app.module.ts # Main Angular module
+│   ├── assets/           # Static assets (icons, styles, etc.)
+│   ├── environments/     # Environment variables
+│   ├── styles.scss       # Global styles
+│   ├── main.ts           # Application entry point
+│── angular.json          # Angular CLI configuration
+│── package.json          # Dependencies and scripts
+│── tsconfig.json         # TypeScript configuration
+```
+
+---
+
+## 📜 Environment Variables
+This app requires an **OpenWeather API key**.  
+Create an `environment.ts` file inside `src/environments/` and add:
+
+```typescript
+export const environment = {
+  production: false,
+  openWeatherKey: 'your-api-key-here'
+};
+```
+
+For production, update `environment.prod.ts` accordingly.
+
+---
+
+## 📜 License
+This project is licensed under the MIT License.
+
+---
+
+### 📩 Need Help?
+- Check the [Angular CLI Docs](https://angular.io/cli)
+- Reach out via GitHub Issues
+
+Happy Coding! 🎉
+
+---
+
+This `README.md` is now **clean, structured, and informative**, providing clear instructions for setting up, running, and contributing to the project. 🚀

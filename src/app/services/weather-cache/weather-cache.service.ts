@@ -31,14 +31,6 @@ export class WeatherCacheService {
 
     return;
   }
-  //
-  // public setCacheData(lat: number, lon: number, currentWeather: WeatherData, forecast: WeatherData[]): void {
-  //   const { weatherKey, forecastKey } = this.getCacheKeys(lat, lon);
-  //   const now = Date.now();
-  //
-  //   this.currentWeatherCache.set(weatherKey, { data: currentWeather, timestamp: now });
-  //   this.forecastCache.set(forecastKey, { data: forecast, timestamp: now });
-  // }
 
   public setCurrentWeatherCache(lat: number, lon: number, currentWeather: WeatherData): void {
     const { weatherKey } = this.getCacheKeys(lat, lon);

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../enviroments/enviroment';
-import { catchError, EMPTY, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ApiEndpointEnum } from 'src/app/shared/enums';
 import {
   CitySearchResponse,
@@ -32,7 +32,7 @@ export class OpenWeatherApiService {
     return this.fetchFromApi<ForecastResponse>(ApiEndpointEnum.FORECAST, { lat, lon, units: 'metric' });
   }
 
-  private fetchFromApi<T>(endpoint: ApiEndpointEnum, params: OpenWeatherRequestParams) {
+  private fetchFromApi<T>(endpoint: ApiEndpointEnum, params: OpenWeatherRequestParams): Observable<T> {
     let httpParams = new HttpParams().set('appid', this.API_KEY);
     Object.keys(params).forEach(key => httpParams = httpParams.set(key, params[key]));
 
