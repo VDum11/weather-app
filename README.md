@@ -1,10 +1,8 @@
-Here’s an improved and updated `README.md` that better reflects your project's structure, development setup, and testing instructions:
-
----
-
 # 🌤 WeatherApp
 
 A modern weather application built with **Angular 19**, **Angular Material**, and **RxJS**.
+
+🔗 Live Demo: [WeatherApp](https://weather-app-1-j38z.onrender.com/)
 
 ## 🚀 Features
 - Search for cities and get real-time weather data
